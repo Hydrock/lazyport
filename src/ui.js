@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const blessed = require('blessed');
 const { getPorts } = require('./ports');
 const { killProcess } = require('./kill');

@@ -1,7 +1,10 @@
 {
-  "name": "lazyport",
+  "name": "@hydrock/lazyport",
   "version": "0.0.1",
   "description": "The laziest way to manage ports",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.js",
   "bin": {
     "lazyport": "./src/ui.js"
