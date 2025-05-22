@@ -42,7 +42,14 @@ let data = [];
 async function updateList() {
     try {
         data = await getPorts();
-        list.setItems(data.map(p => `:${p.port}  PID: ${p.pid}  ${p.name}`));
+        // list.setItems(data.map(p => `:${p.port}  PID: ${p.pid}  ${p.name}`));
+        list.setItems(
+            data.map(p => {
+                const port = `:${p.port}`.padEnd(10);
+                const pid = `PID: ${p.pid}`.padEnd(16);
+                return `${port}${pid}${p.name}`;
+            })
+        );
         screen.render();
     } catch (err) {
         list.setItems(['Ошибка при получении портов']);
