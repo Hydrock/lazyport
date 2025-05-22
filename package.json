@@ -1,0 +1,27 @@
+{
+  "name": "lazyport",
+  "version": "1.0.0",
+  "description": "The laziest way to manage ports",
+  "main": "index.js",
+  "bin": {
+    "lazyport": "src/index.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/blessed": "^0.1.25",
+    "@types/node": "^22.15.21",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0",
+    "find-process": "^1.4.10",
+    "tree-kill": "^1.2.2"
+  }
+}
