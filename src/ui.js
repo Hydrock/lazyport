@@ -7,13 +7,26 @@ const screen = blessed.screen({
     title: 'Lazyport',
 });
 
+const headerBox = blessed.box({
+    parent: screen,
+    top: 0,
+    left: 'center',
+    height: 1,
+    width: '80%',
+    tags: true,
+    content: `{bold}${'PORT'.padEnd(10)}${'PID'.padEnd(16)}NAME{/bold}`,
+    style: {
+        fg: 'white',
+    }
+});
+
 const list = blessed.list({
     parent: screen,
     label: ' Занятые порты ',
-    width: '80%',
+    width: '100%',
     height: '80%',
-    top: 'center',
-    left: 'center',
+    top: 1,
+    left: 0,
     border: 'line',
     keys: true,
     vi: true,
@@ -42,14 +55,14 @@ let data = [];
 async function updateList() {
     try {
         data = await getPorts();
-        // list.setItems(data.map(p => `:${p.port}  PID: ${p.pid}  ${p.name}`));
-        list.setItems(
-            data.map(p => {
-                const port = `:${p.port}`.padEnd(10);
-                const pid = `PID: ${p.pid}`.padEnd(16);
-                return `${port}${pid}${p.name}`;
-            })
-        );
+
+        const items = data.map(p => {
+            const port = `:${p.port}`.padEnd(10);
+            const pid = `${p.pid}`.padEnd(16);
+            return `${port}${pid}${p.name}`;
+        });
+
+        list.setItems(items);
         screen.render();
     } catch (err) {
         list.setItems(['Ошибка при получении портов']);
