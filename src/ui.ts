@@ -1,17 +1,16 @@
 import blessed from 'blessed';
+import { getPorts, PortProcess } from './ports';
 
-// Создание экрана
 const screen = blessed.screen({
     smartCSR: true,
     title: 'Lazyport',
 });
 
-// Список
 const list = blessed.list({
     parent: screen,
-    label: ' Список процессов ',
-    width: '50%',
-    height: '50%',
+    label: ' Занятые порты ',
+    width: '80%',
+    height: '80%',
     top: 'center',
     left: 'center',
     border: 'line',
@@ -19,41 +18,39 @@ const list = blessed.list({
     vi: true,
     mouse: true,
     style: {
-        selected: {
-            bg: 'blue',
-            fg: 'white',
-        },
-        item: {
-            hover: {
-                bg: 'green',
-            },
-        },
+        selected: { bg: 'blue', fg: 'white' },
+        item: { hover: { bg: 'green' } },
     },
-    items: ['Процесс 1', 'Процесс 2', 'Процесс 3'],
+    items: ['Загрузка...'],
 });
 
-// Инфо-панель
 const message = blessed.box({
     parent: screen,
     bottom: 0,
     height: 3,
     width: '100%',
     tags: true,
-    style: {
-        fg: 'white',
-        bg: 'gray',
-    },
-    content: 'Нажмите Enter для выбора, Q — выход.',
+    style: { fg: 'white', bg: 'gray' },
+    content: 'Нажмите Q для выхода.',
 });
 
 list.focus();
 
-// Обработка нажатий
-list.on('select', (item, index) => {
-    message.setContent(`Вы выбрали: ${item.getText()}`);
-    screen.render();
-});
+async function updateList() {
+    try {
+        const ports: PortProcess[] = await getPorts();
+        list.setItems(
+            ports.map(p => `:${p.port}  PID: ${p.pid}  ${p.name}`)
+        );
+        screen.render();
+    } catch (err) {
+        list.setItems(['Ошибка при получении портов']);
+        screen.render();
+    }
+}
+
+// Обновлять список каждые 3 секунды
+updateList();
+setInterval(updateList, 3000);
 
 screen.key(['q', 'C-c'], () => process.exit(0));
-
-screen.render();

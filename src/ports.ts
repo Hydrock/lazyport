@@ -1,19 +1,27 @@
-import find from 'find-process';
+import { exec } from 'child_process';
+import util from 'util';
 
-export async function getPortsAndProcesses() {
-    const ports: { port: number; pid: number; name: string; cmd: string }[] = [];
+const execAsync = util.promisify(exec);
 
-    const start = 3000;
-    const end = 9999;
+export interface PortProcess {
+    port: string;
+    pid: string;
+    name: string;
+}
 
-    for (let port = start; port <= end; port++) {
-        try {
-            const result = await find('port', port);
-            if (result.length) {
-                ports.push({ port, ...result[0] });
-            }
-        } catch (e) { }
-    }
+export async function getPorts(): Promise<PortProcess[]> {
+    const { stdout } = await execAsync('lsof -nP -iTCP -sTCP:LISTEN');
+    const lines = stdout.split('\n').filter(Boolean);
+    lines.shift(); // убрать заголовок
 
-    return ports;
+    const results: PortProcess[] = lines.map(line => {
+        const parts = line.trim().split(/\s+/);
+        const name = parts[0]; // имя процесса
+        const pid = parts[1];  // PID
+        const portInfo = parts[8]; // *:5000
+        const port = portInfo.includes(':') ? portInfo.split(':').pop()! : '?';
+        return { port, pid, name };
+    });
+
+    return results;
 }
