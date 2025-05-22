@@ -12,10 +12,6 @@ Mac and Windows are supported
 npm install -g @hydrock/lazyport
 ```
 
-```sh
-yarn add -g @hydrock/lazyport
-```
-
 ## Usage
 
 Type in the terminal:
@@ -24,3 +20,7 @@ Type in the terminal:
 lazyport
 ```
 
+Chose the process and:
+
+K - kill the process
+Q, Control+C - exit the program
