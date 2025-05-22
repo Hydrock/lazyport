@@ -24,7 +24,7 @@ const headerBox = blessed.box({
 
 const list = blessed.list({
     parent: screen,
-    label: ' Занятые порты ',
+    label: ' Busy ports ',
     width: '100%',
     height: '80%',
     top: 1,
@@ -37,7 +37,7 @@ const list = blessed.list({
         selected: { bg: 'blue', fg: 'white' },
         item: { hover: { bg: 'green' } },
     },
-    items: ['Загрузка...'],
+    items: ['Loading...'],
 });
 
 const message = blessed.box({
@@ -47,7 +47,7 @@ const message = blessed.box({
     width: '100%',
     tags: true,
     style: { fg: 'white', bg: 'gray' },
-    content: 'Нажмите K для завершения процесса. Q — выход.',
+    content: 'Press K to complete the process. Q is the output.',
 });
 
 list.focus();
@@ -67,7 +67,7 @@ async function updateList() {
         list.setItems(items);
         screen.render();
     } catch (err) {
-        list.setItems(['Ошибка при получении портов']);
+        list.setItems(['Error receiving ports']);
         screen.render();
     }
 }
@@ -88,9 +88,9 @@ screen.key(['k', 'C-s'], async () => {
 
     try {
         await killProcess(item.pid);
-        message.setContent(`✔ Завершён PID ${item.pid} (${item.name})`);
+        message.setContent(`✔ Killed PID ${item.pid} (${item.name})`);
     } catch (err) {
-        message.setContent(`❌ Ошибка: ${err.message}`);
+        message.setContent(`❌ Error: ${err.message}`);
     }
 
     await updateList();
