@@ -1,6 +1,6 @@
 {
   "name": "lazyport",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "The laziest way to manage ports",
   "main": "index.js",
   "bin": {
