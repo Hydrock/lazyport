@@ -4,18 +4,23 @@
   "description": "The laziest way to manage ports",
   "main": "index.js",
   "bin": {
-    "lazyport": "src/index.ts"
+    "lazyport": "./src/ui.js"
   },
+  "files": [
+    "src/"
+  ],
+  "keywords": [],
   "scripts": {
+    "start": "node src/ui.js",
+    "version:patch": "npm version patch && npm publish",
+    "version:minor": "npm version minor && npm publish",
+    "version:major": "npm version major && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "blessed": "^0.1.81",
-    "blessed-contrib": "^4.11.0",
-    "find-process": "^1.4.10",
     "tree-kill": "^1.2.2"
   }
 }

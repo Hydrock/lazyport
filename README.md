@@ -1,6 +1,14 @@
 # lazyport
+
 The laziest way to manage ports
 
-npx ts-node src/index.ts
+![alt text](https://github.com/hydrock/lazyport/blob/main/assets/preview.png?raw=true)
 
-node src/ui.js
+Mac and Windows Supports
+
+## Installation
+
+## Usage
+
+
+
